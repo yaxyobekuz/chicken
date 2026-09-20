@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * Dizayn tokenlari
+ *
+ * Asos — oq/yorug' editorial sahifa. Yashil (#2D6A4F) — asosiy brend
+ * rangi, oltin — faqat urg'u uchun (logotip, raqam belgilari, ajratuvchi
+ * chiziqlar). Ranglar oklch'da: yorug'lik bo'yicha bir tekis shkala.
+ * ------------------------------------------------------------------ */
+@theme {
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-sans: 'Inter Tight', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Brend yashili — brand-600 aynan #2D6A4F (oklch 0.4758 0.0777 162.2) */
+  --color-brand-50: oklch(0.972 0.013 162.2);
+  --color-brand-100: oklch(0.938 0.028 162.2);
+  --color-brand-200: oklch(0.879 0.05 162.2);
+  --color-brand-300: oklch(0.796 0.071 162.2);
+  --color-brand-400: oklch(0.689 0.085 162.2);
+  --color-brand-500: oklch(0.585 0.086 162.2);
+  --color-brand-600: oklch(0.4758 0.0777 162.2); /* #2D6A4F */
+  --color-brand-700: oklch(0.402 0.066 162.2);
+  --color-brand-800: oklch(0.33 0.053 162.2);
+  --color-brand-900: oklch(0.269 0.042 162.2);
+  --color-brand-950: oklch(0.191 0.031 162.2);
+
+  /* Oltin urg'u — logotipdan olingan, juda tejamkor ishlatiladi */
+  --color-gold-200: oklch(0.925 0.06 88);
+  --color-gold-300: oklch(0.875 0.09 87);
+  --color-gold-400: oklch(0.822 0.124 86);
+  --color-gold-500: oklch(0.768 0.136 84);
+  --color-gold-600: oklch(0.678 0.126 79);
+  --color-gold-700: oklch(0.564 0.105 74);
+
+  /* Neytral — sovuq emas, biroz iliq kul rang */
+  --color-ink-50: oklch(0.985 0.002 106);
+  --color-ink-100: oklch(0.967 0.003 106);
+  --color-ink-200: oklch(0.925 0.004 106);
+  --color-ink-300: oklch(0.868 0.005 106);
+  --color-ink-400: oklch(0.71 0.007 106);
+  --color-ink-500: oklch(0.565 0.008 106);
+  --color-ink-600: oklch(0.452 0.008 106);
+  --color-ink-700: oklch(0.375 0.008 106);
+  --color-ink-800: oklch(0.27 0.007 106);
+  --color-ink-900: oklch(0.19 0.006 106);
+  --color-ink-950: oklch(0.13 0.005 106);
+
+  --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Sahifa gorizontal chekkasi — barcha bo'limlar shunga tayanadi */
+  --spacing-gutter: 1.25rem;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /*
+   * Taqdimot rejimi: sahifa scroll qilinmaydi — har bir slayd
+   * ekranga to'liq sig'adi. Shuning uchun body qat'iy 100dvh.
+   */
+  html,
+  body,
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    @apply bg-white font-sans text-ink-900 antialiased;
+    margin: 0;
+    /* Raqamlar ustunlarda tekis tursin */
+    font-variant-numeric: tabular-nums;
+    overscroll-behavior: none;
+  }
+
+  ::selection {
+    @apply bg-brand-600 text-white;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+}
+
+@layer components {
+  /*
+   * Rasmlar uchun yagona ramka.
+   * Radius ekran kengligiga moslashadi — katta monitorda yumshoqroq.
+   */
+  .frame {
+    @apply relative overflow-hidden bg-ink-100;
+    border-radius: clamp(0.5rem, 0.9vw, 1.25rem);
+  }
+}
+
+/* Animatsiyalarni o'chirishni afzal ko'rgan foydalanuvchilar uchun */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
