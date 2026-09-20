@@ -408,7 +408,7 @@ export const FUTURE_PROJECTS: readonly Project[] = [
 export const FUTURE_IMPACT = [
   { id: 'investment', value: 36, unit: 'mln $', label: 'Jalb qilinadigan investitsiya' },
   { id: 'jobs', value: 1800, unit: 'ta', label: 'Yaratiladigan ish o‘rinlari' },
-  { id: 'added', value: 11, unit: 'mln $', label: 'Qo‘shilgan qiymat', note: '20%' },
+  { id: 'added', value: 11, unit: 'mln $', label: 'Qo‘shilgan qiymat', note: '17%' },
   { id: 'reduction', value: 15, unit: 'mln $', label: 'Tannarxni kamaytirish', note: '15%' },
 ] as const
 
@@ -496,7 +496,7 @@ export const ADDED_VALUE = {
    * yo'nalishlarga tegishli. Yakuniy ko'rsatkich o'rtacha ulush
    * sifatida beriladi (buyurtmachi bergan qiymat).
    */
-  percentOverride: { value: 28, prefix: 'O‘rtacha' },
+  percentOverride: { value: 17, prefix: 'O‘rtacha' },
   unit: 'mln $',
   /*
    * Guruh foizlari umumiy ulush sifatida qo'shib ko'rsatiladi:
