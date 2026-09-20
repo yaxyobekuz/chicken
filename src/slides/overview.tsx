@@ -17,8 +17,8 @@ const CHAIN_SHOTS = [
 /** Slayddagi asosiy raqamlar — manbadagi 2026-yil ko'rsatkichlari. */
 const HEADLINE = [
   { v: 1.5, u: 'mln bosh', l: 'Bir aylanmada' },
-  { v: 356, u: 'mlrd so‘m', l: 'Yillik aylanma' },
-  { v: 14850, u: 'tonna', l: 'Ishlab chiqarish' },
+  { v: 360, u: 'mlrd so‘m', l: 'Yillik aylanma' },
+  { v: 15, u: 'ming tonna', l: 'Ishlab chiqarish' },
   { v: 417, u: 'nafar', l: 'Xodimlar' },
 ] as const
 
@@ -70,18 +70,19 @@ export function OverviewSlide() {
                   transition={{ duration: 0.7, ease: EASE_OUT_EXPO }}
                   className="flex min-h-0 flex-col justify-center border-t border-ink-200 pt-[clamp(0.35rem,1.1vh,0.85rem)]"
                 >
-                  <dd className="flex items-baseline gap-1 font-display text-[clamp(1.6rem,4.3vw,4.4rem)] leading-none tracking-[-0.03em] text-ink-950">
+                  <dd className="flex flex-wrap items-baseline gap-x-[0.2em] gap-y-[0.15em] font-display text-[clamp(1.6rem,4.3vw,4.4rem)] leading-none tracking-[-0.03em] text-ink-950">
                     {/* Kasrli qiymat yaxlitlanmasin: 1,5 "2" bo'lib qolmasin */}
                     <Counter
                       to={h.v}
                       decimals={Number.isInteger(h.v) ? 0 : 1}
                       delay={0.35}
                     />
+                    {/* Birlik raqam yonida — bitta bazis chizig'ida */}
+                    <span className="font-mono text-[clamp(0.45rem,0.66vw,0.625rem)] tracking-[0.14em] text-ink-400 uppercase">
+                      {h.u}
+                    </span>
                   </dd>
-                  <dt className="mt-[0.45em] font-mono text-[clamp(0.45rem,0.66vw,0.625rem)] tracking-[0.14em] text-ink-400 uppercase">
-                    {h.u}
-                  </dt>
-                  <dt className="mt-[0.25em] text-[clamp(0.6rem,0.88vw,0.8125rem)] leading-tight text-ink-700">
+                  <dt className="mt-[0.45em] text-[clamp(0.6rem,0.88vw,0.8125rem)] leading-tight text-ink-700">
                     {h.l}
                   </dt>
                 </motion.div>

@@ -27,16 +27,6 @@ function dotColor(tone: Tone, i: number) {
 function GroupCard({ group, tone, delay }: { group: IndicatorGroup; tone: Tone; delay: number }) {
   const brand = tone === 'brand'
 
-  /*
-   * Jami pul qiymati qatorlardan hisoblanadi — qo'lda yozilmaydi.
-   * Shunday qilsak, biror qator o'zgarganda jami hech qachon
-   * qatorlar yig'indisidan farq qilib qolmaydi.
-   * Suzuvchi nuqta xatosini oldini olish uchun yaxlitlanadi (0,1 + 0,2).
-   */
-  const totalValue = group.rows.some((r) => r.value !== undefined)
-    ? Math.round(group.rows.reduce((sum, r) => sum + (r.value ?? 0), 0) * 100) / 100
-    : undefined
-
   return (
     <motion.article
       initial={{ opacity: 0, y: 18 }}
@@ -80,7 +70,7 @@ function GroupCard({ group, tone, delay }: { group: IndicatorGroup; tone: Tone; 
                 show: { opacity: 1, x: 0 },
               }}
               transition={{ duration: 0.55, ease: EASE_OUT_EXPO }}
-              className="flex items-baseline gap-[clamp(0.35rem,0.7vw,0.65rem)] border-b border-ink-900/10 py-[clamp(0.25rem,0.8vh,0.6rem)]"
+              className="flex items-baseline gap-[clamp(0.35rem,0.7vw,0.65rem)] border-b border-ink-900/10 py-[clamp(0.25rem,0.8vh,0.6rem)] last:border-b-0"
             >
               <span
                 className={cn(
@@ -102,44 +92,6 @@ function GroupCard({ group, tone, delay }: { group: IndicatorGroup; tone: Tone; 
               </span>
             </motion.li>
           ))}
-          {/* Jami */}
-          <motion.li
-            variants={{
-              hidden: { opacity: 0, x: -10 },
-              show: { opacity: 1, x: 0 },
-            }}
-            transition={{ duration: 0.55, ease: EASE_OUT_EXPO }}
-            className="flex items-baseline gap-[clamp(0.35rem,0.7vw,0.65rem)] pt-[clamp(0.3rem,0.9vh,0.65rem)]"
-          >
-            <span className="size-[0.6em] shrink-0" />
-            <span
-              className={cn(
-                'min-w-0 flex-1 font-mono text-[clamp(0.55rem,0.82vw,0.78rem)] font-medium tracking-[0.14em] uppercase',
-                brand ? 'text-brand-700' : 'text-gold-700',
-              )}
-            >
-              Jami
-            </span>
-            {totalValue !== undefined && (
-              <span
-                className={cn(
-                  'shrink-0 font-mono text-[clamp(0.58rem,0.86vw,0.82rem)] font-medium tabular-nums',
-                  brand ? 'text-brand-700' : 'text-gold-700',
-                )}
-              >
-                {num(totalValue)} mln $
-              </span>
-            )}
-            <span
-              className={cn(
-                'flex shrink-0 items-baseline gap-[0.1em] font-display text-[clamp(0.95rem,1.55vw,1.5rem)] leading-none tracking-[-0.025em] tabular-nums',
-                brand ? 'text-brand-700' : 'text-gold-700',
-              )}
-            >
-              {num(group.total)}
-              <span className="text-[0.55em]">%</span>
-            </span>
-          </motion.li>
         </motion.ul>
       </div>
     </motion.article>
@@ -176,8 +128,14 @@ function ColumnTotal({
     data.groups.reduce((sum, g) => sum + g.rows.reduce((s, r) => s + (r.value ?? 0), 0), 0),
   )
 
-  // Umumiy foiz — guruh foizlari yig'indisi (5,4 + 14,6 = 20).
+  /*
+   * Umumiy foiz — odatda guruh foizlari yig'indisi (5,4 + 14,6 = 20).
+   * Ba'zi ustunda yig'indi mantiqan to'g'ri kelmaydi (guruhlar turli
+   * hajmdagi yo'nalishlar), o'shanda manbadagi tayyor qiymat olinadi.
+   */
+  const override = 'percentOverride' in data ? data.percentOverride : undefined
   const totalPercent =
+    override?.value ??
     Math.round(data.groups.reduce((sum, g) => sum + g.total, 0) * 100) / 100
 
   return (
@@ -212,8 +170,15 @@ function ColumnTotal({
 
         {/* Umumiy foiz — kartaning o'ng chekkasida, pul summasiga juft.
             Foiz belgisi raqam bilan bir xil o'lchamda. */}
-        <p className="shrink-0 font-display text-[clamp(1.25rem,2.4vw,2.4rem)] leading-none tracking-[-0.03em] text-white tabular-nums">
-          {num(totalPercent)}%
+        <p className="flex shrink-0 items-baseline gap-[0.4em] text-white">
+          {override?.prefix && (
+            <span className="font-mono text-[clamp(0.48rem,0.72vw,0.68rem)] tracking-[0.16em] text-white/65 uppercase">
+              {override.prefix}
+            </span>
+          )}
+          <span className="font-display text-[clamp(1.25rem,2.4vw,2.4rem)] leading-none tracking-[-0.03em] tabular-nums">
+            {num(totalPercent)}%
+          </span>
         </p>
       </div>
     </motion.div>

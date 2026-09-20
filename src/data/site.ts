@@ -185,15 +185,18 @@ export const GROWTH_KPIS: readonly Kpi[] = [
     label: 'Yillik aylanma',
     unit: 'mlrd so‘m',
     from: 8,
-    to: 356,
-    multiplier: '48',
+    to: 360,
+    // 360 / 8 = 45 — ko'rsatkich yangilangach koeffitsient ham qayta hisoblandi
+    multiplier: '45',
   },
   {
     id: 'volume',
     label: 'Ishlab chiqarish hajmi',
     unit: 'tonna',
     from: 375,
-    to: 14850,
+    // 15 000 tonna = 15 ming tonna — o'qishga qulayroq shakl
+    to: 15,
+    unitTo: 'ming tonna',
     multiplier: '40',
     format: 'space',
   },
@@ -405,7 +408,7 @@ export const FUTURE_PROJECTS: readonly Project[] = [
 export const FUTURE_IMPACT = [
   { id: 'investment', value: 36, unit: 'mln $', label: 'Jalb qilinadigan investitsiya' },
   { id: 'jobs', value: 1800, unit: 'ta', label: 'Yaratiladigan ish o‘rinlari' },
-  { id: 'added', value: 11, unit: 'mln $', label: 'Qo‘shilgan qiymat', note: '60%' },
+  { id: 'added', value: 11, unit: 'mln $', label: 'Qo‘shilgan qiymat', note: '20%' },
   { id: 'reduction', value: 15, unit: 'mln $', label: 'Tannarxni kamaytirish', note: '15%' },
 ] as const
 
@@ -488,6 +491,12 @@ export const COST_REDUCTION = {
  */
 export const ADDED_VALUE = {
   caption: 'Qo‘shimcha qiymat ko‘rsatkichi',
+  /*
+   * Guruh foizlari bu yerda qo'shilmaydi — ular turli hajmdagi
+   * yo'nalishlarga tegishli. Yakuniy ko'rsatkich o'rtacha ulush
+   * sifatida beriladi (buyurtmachi bergan qiymat).
+   */
+  percentOverride: { value: 28, prefix: 'O‘rtacha' },
   unit: 'mln $',
   /*
    * Guruh foizlari umumiy ulush sifatida qo'shib ko'rsatiladi:
@@ -518,6 +527,8 @@ export const ADDED_VALUE = {
   unit: string
   /** Guruh foizlarini qo'shib umumiy ulush chiqarish mumkinmi. */
   groups: readonly IndicatorGroup[]
+  /** Yig'indi o'rniga ko'rsatiladigan yakuniy foiz. */
+  percentOverride?: { value: number; prefix?: string }
 }
 
 /**
