@@ -1,12 +1,12 @@
 import { AnimatePresence, motion } from 'motion/react'
 import { useCallback, useEffect, useState } from 'react'
 
-import { SlideFoot } from '@/components/chrome/slide-foot'
 import { TimelineNav } from '@/components/chrome/timeline-nav'
-import { PAGES } from '@/data/site'
+import { PAGES, type PageId } from '@/data/site'
 import { EASE_OUT_EXPO } from '@/lib/motion'
 import { RouterProvider, useRouter } from '@/lib/router'
 import { usePrefersReducedMotion } from '@/lib/use-reduced-motion'
+import { CooperationSlide } from '@/slides/cooperation'
 import { FutureSlide } from '@/slides/future'
 import { GrowthSlide } from '@/slides/growth'
 import { IndicatorsSlide } from '@/slides/indicators'
@@ -19,8 +19,9 @@ const SLIDES = {
   overview: OverviewSlide,
   growth: GrowthSlide,
   projects: ProjectsSlide,
-  indicators: IndicatorsSlide,
   future: FutureSlide,
+  cooperation: CooperationSlide,
+  indicators: IndicatorsSlide,
 } as const
 
 function Deck() {
@@ -28,8 +29,14 @@ function Deck() {
   const reduced = usePrefersReducedMotion()
   const [isFullscreen, setFullscreen] = useState(false)
 
+  /*
+   * Ekranda haqiqatan ko'rinayotgan slayd. `page` darhol o'zgaradi,
+   * bu esa eski slayd chiqib bo'lgach yangilanadi — pastki panel
+   * mavzusi shu qiymatga tayanadi.
+   */
+  const [shownPage, setShownPage] = useState<PageId>(page)
+
   const Slide = SLIDES[page]
-  const meta = PAGES.find((p) => p.id === page)!
 
   // --- To'liq ekran ---
   const toggleFullscreen = useCallback(() => {
@@ -108,7 +115,17 @@ function Deck() {
     <div className="flex h-[100dvh] w-full flex-col overflow-hidden bg-white">
       {/* Slayd maydoni */}
       <div className="relative min-h-0 flex-1">
-        <AnimatePresence mode="wait" custom={direction} initial={false}>
+        <AnimatePresence
+          mode="wait"
+          custom={direction}
+          initial={false}
+          /*
+           * Eski slayd chiqib bo'lgach — ya'ni yangisi ekranga kirayotgan
+           * paytda — pastki panel mavzusi yangilanadi. Aks holda panel
+           * slayddan oldinda o'zgarib, ikkala harakat mos kelmaydi.
+           */
+          onExitComplete={() => setShownPage(page)}
+        >
           <motion.div
             key={page}
             custom={direction}
@@ -124,13 +141,11 @@ function Deck() {
         </AnimatePresence>
       </div>
 
-      {/*
-        Kirish slaydida bu yorliq ko'rsatilmaydi: u yerda rasm ekran
-        chetigacha chiqadi va ochilish kadri toza qolishi kerak.
-      */}
-      {page !== 'intro' && <SlideFoot foot={meta.foot} index={meta.index} />}
-
-      <TimelineNav onFullscreen={toggleFullscreen} isFullscreen={isFullscreen} />
+      <TimelineNav
+        onFullscreen={toggleFullscreen}
+        isFullscreen={isFullscreen}
+        shownPage={shownPage}
+      />
     </div>
   )
 }

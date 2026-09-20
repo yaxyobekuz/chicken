@@ -18,8 +18,9 @@ const ROUTES = [
   ['02-overview', '/korxona'],
   ['03-growth', '/rivojlanish'],
   ['04-projects', '/loyihalar'],
-  ['05-indicators', '/korsatkichlar'],
-  ['06-future', '/istiqbol'],
+  ['05-future', '/istiqbol'],
+  ['06-cooperation', '/kooperatsiya'],
+  ['07-indicators', '/korsatkichlar'],
 ]
 
 const SIZES = [

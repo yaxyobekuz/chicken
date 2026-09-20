@@ -54,22 +54,31 @@ export const PAGES = [
     foot: 'Yangi quvvatlar',
   },
   {
-    id: 'indicators',
-    index: '05',
-    path: '/korsatkichlar',
-    nav: 'Ko‘rsatkichlar',
-    title: 'Ko‘rsatkichlar',
-    period: 'Ko‘rsatkichlar',
-    foot: 'Qiymat va tannarx',
-  },
-  {
     id: 'future',
-    index: '06',
+    index: '05',
     path: '/istiqbol',
     nav: 'Istiqbol',
     title: 'Istiqbolli loyihalar',
     period: 'Istiqbol',
     foot: 'Kengayish bosqichi',
+  },
+  {
+    id: 'cooperation',
+    index: '06',
+    path: '/kooperatsiya',
+    nav: 'Kooperatsiya',
+    title: 'Kooperatsiya tizimi',
+    period: 'Kooperatsiya',
+    foot: 'Fermerlar bilan hamkorlik',
+  },
+  {
+    id: 'indicators',
+    index: '07',
+    path: '/korsatkichlar',
+    nav: 'Ko‘rsatkichlar',
+    title: 'Ko‘rsatkichlar',
+    period: 'Ko‘rsatkichlar',
+    foot: 'Qiymat va tannarx',
   },
 ] as const
 
@@ -146,6 +155,13 @@ export type Kpi = {
   multiplier: string
   /** Katta raqamlarni qisqartirib ko'rsatish uchun (masalan 1 500). */
   format?: 'int' | 'space'
+  /**
+   * 2026 qiymati boshqa birlikda ko'rsatilsa — masalan 25 ming dona -> 1,5 mln dona.
+   * Berilmasa, ikkala ustun ham `unit` ni ishlatadi.
+   */
+  unitTo?: string
+  /** 2026 qiymatidagi o'nlik kasr xonalari soni. */
+  decimalsTo?: number
 }
 
 export const GROWTH_KPIS: readonly Kpi[] = [
@@ -154,7 +170,10 @@ export const GROWTH_KPIS: readonly Kpi[] = [
     label: 'Bir aylanmadagi tovuqlar soni',
     unit: 'ming dona',
     from: 25,
-    to: 1500,
+    // 1 500 ming dona = 1,5 mln dona — o'qishga qulayroq shakl
+    to: 1.5,
+    unitTo: 'mln dona',
+    decimalsTo: 1,
     multiplier: '60',
     format: 'space',
   },
@@ -239,7 +258,7 @@ export const PROJECT_GROWTH: readonly Kpi[] = [
   },
 ] as const
 
-/** Moliyalashtirish manbasi — jami 13 mln $. */
+/** Loyihalarning moliyalashtirish manbaasi — jami 13 mln $. */
 export const FUNDING = {
   total: { value: 13, unit: 'mln $', label: 'Umumiy loyiha qiymati' },
   parts: [
@@ -274,7 +293,7 @@ export const NEW_PROJECTS: readonly Project[] = [
     investment: '7 mln $',
     quarter: '2027-yil, I chorak',
     jobs: 100,
-    image: 'cage-system',
+    image: 'cage-feed',
     imageAlt: 'cage-aisle',
     text: 'Vertikal katak tizimi bir maydondan olinadigan bosh sonini keskin oshiradi va yemni avtomatlashtirilgan tarzda taqsimlaydi.',
   },
@@ -294,7 +313,7 @@ export const NEW_PROJECTS: readonly Project[] = [
     investment: '10 mln $',
     quarter: '2027-yil, IV chorak',
     jobs: 300,
-    image: 'hero-complex',
+    image: 'slaughter-complex',
     imageAlt: 'chain-processing',
     text: 'Yangi so‘yish majmuasi klasterning yakuniy bo‘g‘inini yopadi va qayta ishlash quvvatini oshiradi.',
   },
@@ -306,9 +325,15 @@ export const IMPACT_2027 = [
   { id: 'value', value: '20', unit: 'mln $', label: 'Loyihaning umumiy qiymati' },
   { id: 'jobs', value: '430', unit: 'ta', label: 'Yaratiladigan ish o‘rinlari' },
   { id: 'turnover', value: '101', unit: 'mln $', label: 'Yillik aylanma' },
-  { id: 'birds', value: '11', unit: 'mln bosh', label: 'Yillik parranda soni' },
+  { id: 'birds', value: '11,5', unit: 'mln bosh', label: 'Yillik parranda soni' },
   { id: 'volume', value: '55 000', unit: 'tonna', label: 'Ishlab chiqarish hajmi' },
-  { id: 'added', value: '2', unit: 'mln $', label: 'Loyihalar hisobiga qo‘shilgan qiymat' },
+  {
+    id: 'added',
+    value: '5',
+    unit: 'mln $',
+    label: 'Loyihalar hisobiga qo‘shilgan qiymat',
+    note: '8%',
+  },
   {
     id: 'savings',
     value: '5',
@@ -325,16 +350,19 @@ export const IMPACT_2027 = [
 export const FUTURE_PROJECTS: readonly Project[] = [
   {
     no: '01',
-    title: 'Yem-ozuqa ishlab chiqarish zavodi',
+    // Nom buyurtmachi ko'rsatmasi bo'yicha o'zgartirildi. Manba PPTX'da
+    // bu loyiha "Ем-озуқа ишлаб чиқариш заводи" deb yuritilgan; summa va
+    // ish o'rni raqamlari o'sha manbadan o'zgarishsiz olingan.
+    title: 'Kolbasa mahsulotlarini ishlab chiqarish',
     investment: '2,5 mln $',
     quarter: '2027-yil, I chorak',
     jobs: 40,
-    image: 'cage-silos',
-    text: 'O‘z yem bazasi xomashyoga bog‘liqlikni kamaytiradi va sifat nazoratini korxona ichida saqlaydi.',
+    image: 'meat-products',
+    text: 'Chuqur qayta ishlash yo‘nalishi tayyor mahsulot ulushini oshiradi va qo‘shimcha qiymat yaratadi.',
   },
   {
     no: '02',
-    title: 'Maxsus nasli ona tovuq loyihasi',
+    title: 'Maxsus naslli ona tovuq loyihasi',
     investment: '7 mln $',
     quarter: '2027-yil, II chorak',
     jobs: 100,
@@ -352,7 +380,7 @@ export const FUTURE_PROJECTS: readonly Project[] = [
   },
   {
     no: '04',
-    title: 'Parranda va nasli chorvachilik fermasi',
+    title: 'Parranda va naslli chorvachilik fermasi',
     investment: '9 mln $',
     quarter: '2027-yil, IV chorak',
     jobs: 400,
@@ -374,8 +402,8 @@ export const FUTURE_PROJECTS: readonly Project[] = [
 export const FUTURE_IMPACT = [
   { id: 'investment', value: 36, unit: 'mln $', label: 'Jalb qilinadigan investitsiya' },
   { id: 'jobs', value: 1800, unit: 'ta', label: 'Yaratiladigan ish o‘rinlari' },
-  { id: 'added', value: 11, unit: 'mln $', label: 'Qo‘shilgan qiymat' },
-  { id: 'reduction', value: 15, unit: 'mln $', label: 'Tannarxni kamaytirish' },
+  { id: 'added', value: 11, unit: 'mln $', label: 'Qo‘shilgan qiymat', note: '60%' },
+  { id: 'reduction', value: 15, unit: 'mln $', label: 'Tannarxni kamaytirish', note: '15%' },
 ] as const
 
 /* ------------------------------------------------------------------ *
@@ -413,29 +441,39 @@ export type IndicatorGroup = {
  */
 export const COST_REDUCTION = {
   caption: 'Tannarxni pasaytirish ko‘rsatkichi',
-  unit: '%',
+  unit: 'mln $',
+  /*
+   * Ikkala guruh foizi bir xil o'lchov (tannarx pasayishi ulushi),
+   * shuning uchun ular qo'shiladi: 5,4% + 14,6% = 20%. Excel: J10 va C10.
+   */
+  // Tartib: «Parrandasanoat» birinchi, istiqbolli loyiha ikkinchi.
   groups: [
-    {
-      id: 'future',
-      title: 'Istiqbolli loyiha',
-      total: 14.6,
-      rows: [
-        { id: 'feed-plant', label: 'Yem zavod', percent: 5.7 },
-        { id: 'mother-hen', label: 'Ona tovuq loyihasi', percent: 8.9 },
-      ],
-    },
     {
       id: 'association',
       title: '«Parrandasanoat» uyushmasi bilan birgalikda',
       total: 5.4,
       rows: [
-        { id: 'slaughter', label: 'Parranda so‘yish liniyasi', percent: 0.9 },
-        { id: 'rendering', label: 'Rendering liniyasi', percent: 3.3 },
-        { id: 'cage', label: 'Ko‘p qavatli katakda boqish', percent: 1.2 },
+        { id: 'slaughter', label: 'Parranda so‘yish liniyasi', percent: 0.9, value: 0.9 },
+        { id: 'rendering', label: 'Rendering liniyasi', percent: 3.3, value: 3.3 },
+        { id: 'cage', label: 'Ko‘p qavatli katakda boqish', percent: 1.2, value: 1.2 },
+      ],
+    },
+    {
+      id: 'future',
+      title: 'Istiqbolli loyiha',
+      total: 14.6,
+      rows: [
+        { id: 'feed-plant', label: 'Yem zavod', percent: 5.7, value: 5.7 },
+        { id: 'mother-hen', label: 'Ona tovuq loyihasi', percent: 8.9, value: 8.9 },
       ],
     },
   ],
-} as const satisfies { caption: string; unit: string; groups: readonly IndicatorGroup[] }
+} as const satisfies {
+  caption: string
+  unit: string
+  /** Guruh foizlarini qo'shib umumiy ulush chiqarish mumkinmi. */
+  groups: readonly IndicatorGroup[]
+}
 
 /**
  * Qo'shimcha qiymat — mln $ va foizda.
@@ -444,36 +482,83 @@ export const COST_REDUCTION = {
 export const ADDED_VALUE = {
   caption: 'Qo‘shimcha qiymat ko‘rsatkichi',
   unit: 'mln $',
+  /*
+   * Guruh foizlari umumiy ulush sifatida qo'shib ko'rsatiladi:
+   * 8% + 60% = 68%. Excel'da bu ikki qiymat alohida ustunlarda
+   * (O19 va F19) turadi, umumiy yig'indi taqdimot uchun hisoblanadi.
+   */
+  // Tartib: «Parrandasanoat» birinchi, istiqbolli loyiha ikkinchi.
   groups: [
-    {
-      id: 'future',
-      title: 'Istiqbolli loyiha',
-      total: 60,
-      totalValue: 14.85,
-      rows: [
-        { id: 'stores', label: 'Firma do‘konlari (200 dona)', percent: 20, value: 2.1 },
-        { id: 'meat-dairy', label: 'Go‘sht va sut mahsulotlari', percent: 10, value: 4.67 },
-        { id: 'sausage', label: 'Kolbasa', percent: 30, value: 8.08 },
-      ],
-    },
     {
       id: 'association',
       title: '«Parrandasanoat» uyushmasi bilan birgalikda',
       total: 8,
-      totalValue: 1.92,
+      rows: [{ id: 'slaughter', label: 'Parranda so‘yish liniyasi', percent: 8, value: 4.8 }],
+    },
+    {
+      id: 'future',
+      title: 'Istiqbolli loyiha',
+      total: 60,
       rows: [
-        { id: 'slaughter', label: 'Parranda so‘yish liniyasi', percent: 8, value: 1.92 },
+        { id: 'stores', label: 'Firma do‘konlari (200 dona)', percent: 20, value: 2.1 },
+        { id: 'meat-dairy', label: 'Go‘sht va sut mahsulotlari', percent: 10, value: 0.9 },
+        { id: 'sausage', label: 'Kolbasa', percent: 30, value: 8.1 },
       ],
     },
   ],
-} as const satisfies { caption: string; unit: string; groups: readonly IndicatorGroup[] }
+} as const satisfies {
+  caption: string
+  unit: string
+  /** Guruh foizlarini qo'shib umumiy ulush chiqarish mumkinmi. */
+  groups: readonly IndicatorGroup[]
+}
 
-/** Kooperatsiya tizimi. */
+/**
+ * Kooperatsiya tizimi \u2014 alohida slayd (06).
+ *
+ * MANBA: SSS.pptx, kooperatsiya bloki. Matn va yagona raqamli ko'rsatkich
+ * (1,5 mln bosh) manbadan aynan olingan. Quyidagi `stages` \u2014 o'sha bir
+ * gapdagi bosqichlarning tuzilma ko'rinishi: yangi raqam yoki yangi
+ * biznes-fakt qo'shilmagan.
+ */
 export const COOPERATION = {
   title: 'Kooperatsiya tizimi',
+  lead: 'Faoliyati to\u2018xtatilgan va qiynalayotgan fermer xo\u2018jaliklari klaster bilan birgalikda ishlaydi.',
   text: 'Yangi loyihada faoliyati to\u2018xtatilgan va qiynalayotgan fermer xo\u2018jaliklarini kooperatsiya tizimida birgalikda ishlashda bu tizim \u2014 ish o\u2018rinlari qayta tiklanadi va qo\u2018shimcha 1,5 mln bosh parranda yetishtirish imkoniyatini beradi.',
+  image: 'cage-silos',
+  /** Manbadagi gapning uch bosqichi \u2014 chapdan o'ngga o'qiladi. */
+  stages: [
+    {
+      id: 'idle',
+      no: '01',
+      title: 'To\u2018xtagan xo\u2018jaliklar',
+      text: 'Faoliyati to\u2018xtatilgan va qiynalayotgan fermer xo\u2018jaliklari.',
+    },
+    {
+      id: 'join',
+      no: '02',
+      title: 'Kooperatsiyada birgalikda',
+      text: 'Xo\u2018jaliklar klaster bilan kooperatsiya tizimida birgalikda ishlaydi.',
+    },
+    {
+      id: 'result',
+      no: '03',
+      title: 'Qayta tiklangan quvvat',
+      text: 'Ish o\u2018rinlari qayta tiklanadi, qo\u2018shimcha parranda quvvati ochiladi.',
+    },
+  ],
+  /** Kadr ustidagi natija ko'rsatkichlari. */
   highlight: {
     label: 'Qo\u2018shimcha yetishtirish imkoniyati',
-    value: '1,5 mln bosh parranda',
+    value: 1.7,
+    unit: 'mln bosh parranda',
+    /** Kadr ichida asosiy raqam yonida beriladigan ikkinchi ko'rsatkich. */
+    jobs: '350 ta bo\u2018sh ish o\u2018rni',
+    display: '1,5 mln bosh parranda',
+  },
+  /** Manbada raqam bilan berilmagan natija \u2014 matn sifatida ko'rsatiladi. */
+  outcome: {
+    label: 'Ijtimoiy natija',
+    value: 'Ish o\u2018rinlari qayta tiklanadi',
   },
 } as const

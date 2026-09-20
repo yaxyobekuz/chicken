@@ -52,7 +52,7 @@ export function GrowthSlide() {
             >
               <div className="flex items-baseline justify-between gap-3">
                 <p className="font-mono text-[clamp(0.6rem,0.86vw,0.82rem)] tracking-[0.16em] text-ink-500 uppercase">
-                  Moliyalashtirish manbasi
+                  Loyihalarning moliyalashtirish manbaasi
                 </p>
                 <p className="font-display text-[clamp(0.85rem,1.5vw,1.35rem)] leading-none text-ink-950">
                   {FUNDING.total.value}
@@ -103,12 +103,12 @@ export function GrowthSlide() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.28, ease: EASE_OUT_EXPO }}
-              className="grid shrink-0 grid-cols-[1.5fr_1fr_1fr_0.62fr] items-baseline gap-[clamp(0.3rem,0.8vw,0.9rem)] border-b border-ink-300 pb-[clamp(0.3rem,0.8vh,0.6rem)] font-mono text-[clamp(0.6rem,0.88vw,0.85rem)] font-medium tracking-[0.16em] text-brand-600 uppercase"
+              className="grid shrink-0 grid-cols-[1.5fr_1fr_1fr_0.62fr] items-baseline gap-[clamp(0.3rem,0.8vw,0.9rem)] rounded-[clamp(0.3rem,0.55vw,0.6rem)] bg-brand-600 px-[clamp(0.5rem,0.9vw,0.9rem)] py-[clamp(0.35rem,0.9vh,0.7rem)] font-display text-[clamp(1.05rem,2.15vw,2.125rem)] font-medium tracking-[0.06em] text-white uppercase"
             >
               <span>Ko&#8216;rsatkich</span>
               <span>2020</span>
               <span>2026</span>
-              <span className="text-right">O&#8216;sish</span>
+              <span>O&#8216;sish</span>
             </motion.div>
 
             {/* Qatorlar — mavjud balandlikni teng bo'lishadi */}
@@ -123,7 +123,7 @@ export function GrowthSlide() {
                     delay: ROW_DELAY + i * 0.07,
                     ease: EASE_OUT_EXPO,
                   }}
-                  className="grid grid-cols-[1.5fr_1fr_1fr_0.62fr] items-baseline gap-[clamp(0.3rem,0.8vw,0.9rem)] border-b border-ink-100 py-[clamp(0.35rem,1.2vh,1rem)]"
+                  className="grid grid-cols-[1.5fr_1fr_1fr_0.62fr] items-baseline gap-[clamp(0.3rem,0.8vw,0.9rem)] border-b border-ink-100 px-[clamp(0.5rem,0.9vw,0.9rem)] py-[clamp(0.35rem,1.2vh,1rem)]"
                 >
                   <span className="text-[clamp(0.72rem,1.12vw,1.08rem)] leading-tight text-ink-700">
                     {k.label}
@@ -146,16 +146,17 @@ export function GrowthSlide() {
                     <span className="font-display text-[clamp(1.15rem,2.3vw,2.2rem)] leading-none tracking-[-0.025em] text-ink-950">
                       <Counter
                         to={k.to}
-                        decimals={k.id === 'value' ? 1 : 0}
+                        decimals={k.decimalsTo ?? (k.id === 'value' ? 1 : 0)}
                         delay={ROW_DELAY + i * 0.07 + 0.1}
                       />
                     </span>
                     <span className="text-[clamp(0.62rem,0.92vw,0.85rem)] text-ink-600">
-                      {k.unit}
+                      {/* Ba'zi qatorlarda 2026 qiymati boshqa birlikda beriladi */}
+                      {k.unitTo ?? k.unit}
                     </span>
                   </span>
 
-                  <span className="text-right font-mono text-[clamp(0.7rem,1.08vw,1.02rem)] font-medium text-gold-700">
+                  <span className="font-display text-[clamp(1rem,1.75vw,1.65rem)] leading-none font-medium tracking-tight text-gold-700">
                     &times;{k.multiplier}
                   </span>
                 </motion.div>
@@ -167,7 +168,7 @@ export function GrowthSlide() {
               initial="hidden"
               animate="show"
               transition={{ staggerChildren: 0.07, delayChildren: 0.72 }}
-              className="grid shrink-0 grid-cols-2 gap-[clamp(0.4rem,0.9vw,0.9rem)] sm:grid-cols-5"
+              className="grid shrink-0 grid-cols-2 gap-[clamp(0.4rem,0.9vw,0.9rem)] sm:grid-cols-4"
             >
               {GROWTH_EXTRAS.map((e) => (
                 <motion.div
@@ -179,6 +180,9 @@ export function GrowthSlide() {
                   <p className="flex items-baseline gap-[0.3em]">
                     <span className="font-display text-[clamp(1rem,1.9vw,1.75rem)] leading-none tracking-[-0.025em] text-brand-700">
                       <Counter to={e.value} delay={0.78} />
+                    </span>
+                    <span className="font-mono text-[clamp(0.55rem,0.8vw,0.75rem)] text-ink-500">
+                      {e.unit}
                     </span>
                     {e.note && (
                       <span className="font-mono text-[clamp(0.6rem,0.86vw,0.82rem)] font-medium text-gold-700">
@@ -192,12 +196,16 @@ export function GrowthSlide() {
                 </motion.div>
               ))}
 
-              {PROJECT_GROWTH.map((p) => (
+              {/*
+                Ish o'rni kartasi ko'rsatilmaydi: 50 -> 417 ko'rsatkichi
+                yuqoridagi jadvalda "Ishchilar soni" qatorida bor.
+              */}
+              {PROJECT_GROWTH.filter((p) => p.id !== 'jobs').map((p) => (
                 <motion.div
                   key={p.id}
                   variants={{ hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0 } }}
                   transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
-                  className="rounded-[clamp(0.4rem,0.7vw,0.75rem)] border border-ink-200 px-[clamp(0.5rem,0.9vw,0.9rem)] py-[clamp(0.4rem,0.9vh,0.75rem)]"
+                  className="rounded-[clamp(0.4rem,0.7vw,0.75rem)] bg-brand-50 px-[clamp(0.5rem,0.9vw,0.9rem)] py-[clamp(0.4rem,0.9vh,0.75rem)]"
                 >
                   <p className="flex items-baseline gap-[0.3em]">
                     <span className="font-mono text-[clamp(0.63rem,0.92vw,0.85rem)] text-ink-400">
@@ -207,6 +215,12 @@ export function GrowthSlide() {
                     <span className="font-display text-[clamp(1rem,1.9vw,1.75rem)] leading-none tracking-[-0.025em] text-ink-950">
                       <Counter to={p.to} delay={0.82} />
                     </span>
+                    {/* "ta" kabi birliklar yorliqdan aniq — faqat pul birligi yoziladi */}
+                    {p.unit !== 'ta' && (
+                      <span className="font-mono text-[clamp(0.55rem,0.8vw,0.75rem)] text-ink-500">
+                        {p.unit}
+                      </span>
+                    )}
                   </p>
                   <p className="mt-[0.35em] text-[clamp(0.63rem,0.94vw,0.85rem)] leading-tight text-ink-600">
                     {p.label}

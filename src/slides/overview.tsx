@@ -16,7 +16,7 @@ const CHAIN_SHOTS = [
 
 /** Slayddagi asosiy raqamlar — manbadagi 2026-yil ko'rsatkichlari. */
 const HEADLINE = [
-  { v: 1500, u: 'ming bosh', l: 'Bir aylanmada' },
+  { v: 1.5, u: 'mln bosh', l: 'Bir aylanmada' },
   { v: 356, u: 'mlrd so‘m', l: 'Yillik aylanma' },
   { v: 14850, u: 'tonna', l: 'Ishlab chiqarish' },
   { v: 417, u: 'nafar', l: 'Xodimlar' },
@@ -71,7 +71,12 @@ export function OverviewSlide() {
                   className="flex min-h-0 flex-col justify-center border-t border-ink-200 pt-[clamp(0.35rem,1.1vh,0.85rem)]"
                 >
                   <dd className="flex items-baseline gap-1 font-display text-[clamp(1.6rem,4.3vw,4.4rem)] leading-none tracking-[-0.03em] text-ink-950">
-                    <Counter to={h.v} delay={0.35} />
+                    {/* Kasrli qiymat yaxlitlanmasin: 1,5 "2" bo'lib qolmasin */}
+                    <Counter
+                      to={h.v}
+                      decimals={Number.isInteger(h.v) ? 0 : 1}
+                      delay={0.35}
+                    />
                   </dd>
                   <dt className="mt-[0.45em] font-mono text-[clamp(0.45rem,0.66vw,0.625rem)] tracking-[0.14em] text-ink-400 uppercase">
                     {h.u}
@@ -121,15 +126,11 @@ export function OverviewSlide() {
                   transition={{ duration: 0.75, ease: EASE_OUT_EXPO }}
                   className="flex min-h-0 flex-col"
                 >
-                  <Figure
-                    id={s.id}
-                    alt={s.label}
-                    sizes="16vw"
-                    className="min-h-0 flex-1"
-                  />
-                  <p className="mt-[0.5em] shrink-0 font-mono text-[clamp(0.45rem,0.66vw,0.625rem)] tracking-[0.13em] text-ink-500 uppercase">
-                    {s.label}
-                  </p>
+                  {/*
+                    Yorliq yozilmaydi: bosqich nomlari yuqoridagi chip'lar
+                    qatorida allaqachon bor. `alt` matni saqlanadi.
+                  */}
+                  <Figure id={s.id} alt={s.label} sizes="16vw" className="min-h-0 flex-1" />
                 </motion.li>
               ))}
             </motion.ul>

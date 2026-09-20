@@ -41,9 +41,6 @@ export function ProjectsSlide() {
                   sizes="33vw"
                   className="size-full"
                 />
-                <span className="absolute top-[0.6rem] left-[0.6rem] rounded-full bg-white/92 px-[0.75em] py-[0.35em] font-mono text-[clamp(0.6rem,0.88vw,0.85rem)] font-medium tracking-[0.12em] text-brand-700 backdrop-blur-sm">
-                  {p.no}
-                </span>
               </div>
 
               {/* Matn */}
@@ -56,24 +53,30 @@ export function ProjectsSlide() {
                   {p.title}
                 </h3>
 
-                <dl className="mt-[clamp(0.35rem,0.9vh,0.7rem)] flex items-end justify-between gap-3 border-t border-ink-200 pt-[clamp(0.3rem,0.8vh,0.6rem)]">
-                  <div>
-                    <dt className="font-mono text-[clamp(0.58rem,0.84vw,0.78rem)] tracking-[0.14em] text-ink-400 uppercase">
-                      Investitsiya
-                    </dt>
-                    <dd className="mt-[0.25em] font-display text-[clamp(1rem,1.85vw,1.7rem)] leading-none tracking-[-0.025em] text-brand-700">
-                      {p.investment}
-                    </dd>
-                  </div>
-                  <div className="text-right">
-                    <dt className="font-mono text-[clamp(0.58rem,0.84vw,0.78rem)] tracking-[0.14em] text-ink-400 uppercase">
-                      Ish o&#8216;rni
-                    </dt>
-                    <dd className="mt-[0.25em] font-display text-[clamp(1rem,1.85vw,1.7rem)] leading-none tracking-[-0.025em] text-ink-950">
-                      {p.jobs}
-                      <span className="ml-[0.15em] font-mono text-[0.4em] text-ink-400">ta</span>
-                    </dd>
-                  </div>
+                {/*
+                  Ikkala qiymat yonma-yon, slash bilan ajratiladi —
+                  istiqbolli loyihalar slaydidagi kabi.
+                */}
+                <dl className="mt-[clamp(0.35rem,0.9vh,0.7rem)] flex items-baseline gap-[0.45em] border-t border-ink-200 pt-[clamp(0.3rem,0.8vh,0.6rem)]">
+                  <dt className="sr-only">Investitsiya</dt>
+                  <dd className="font-display text-[clamp(1rem,1.85vw,1.7rem)] leading-none tracking-tight text-brand-700">
+                    {p.investment}
+                  </dd>
+
+                  <span
+                    aria-hidden
+                    className="font-display text-[clamp(1rem,1.85vw,1.7rem)] leading-none text-ink-300"
+                  >
+                    /
+                  </span>
+
+                  <dt className="sr-only">Ish o&#8216;rni</dt>
+                  <dd className="font-display text-[clamp(1rem,1.85vw,1.7rem)] leading-none tracking-tight text-ink-950">
+                    {p.jobs}
+                    <span className="ml-[0.3em] font-mono text-[0.4em] text-ink-500">
+                      ish o&#8216;rni
+                    </span>
+                  </dd>
                 </dl>
               </div>
             </motion.li>
@@ -87,13 +90,6 @@ export function ProjectsSlide() {
           transition={{ duration: 0.8, delay: 0.58, ease: EASE_OUT_EXPO }}
           className="shrink-0 rounded-[clamp(0.55rem,1vw,1.15rem)] bg-brand-600 px-[clamp(0.7rem,1.5vw,1.6rem)] py-[clamp(0.55rem,1.4vh,1.15rem)] text-white"
         >
-          <div className="flex items-center gap-[0.8em]">
-            <span className="h-px w-[1.6em] bg-gold-400/70" />
-            <p className="font-mono text-[clamp(0.6rem,0.86vw,0.82rem)] tracking-[0.16em] text-brand-100 uppercase">
-              2026&#8211;2027 yillardagi rejaning yig&#8216;ma ta&#8217;siri
-            </p>
-          </div>
-
           <motion.dl
             initial="hidden"
             animate="show"

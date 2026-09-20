@@ -62,7 +62,11 @@ check('Space -> 2026–2027', (await period()).includes('2026'), path())
 // --- End -> oxirgi slayd ---
 await page.keyboard.press('End')
 await settle()
-check('End -> Istiqbol', (await period()).includes('Istiqbol'), path())
+check(
+  'End -> Ko‘rsatkichlar',
+  path() === '/korsatkichlar' && (await period()).includes('rsatkichlari'),
+  path(),
+)
 check(
   'oxirgi slaydda keyingi o‘chiq',
   await page.getByRole('button', { name: 'Keyingi slayd' }).isDisabled(),
@@ -71,7 +75,7 @@ check(
 // --- Orqaga ---
 await page.keyboard.press('ArrowLeft')
 await settle()
-check('ArrowLeft -> orqaga', path() === '/korsatkichlar', path())
+check('ArrowLeft -> orqaga', path() === '/istiqbol', path())
 
 // --- Home -> birinchi ---
 await page.keyboard.press('Home')
@@ -90,7 +94,7 @@ check('"3" -> 2020–2026', (await period()).includes('2020'), path())
 // --- Timeline chip ---
 await page.getByRole('button', { name: 'Istiqbol' }).click()
 await settle()
-check('timeline chip -> Istiqbol', (await period()).includes('Istiqbol'), path())
+check('timeline chip -> Istiqbol', (await period()).includes('Istiqbolli'), path())
 
 // --- Brauzer orqaga ---
 await page.goBack()

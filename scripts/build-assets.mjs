@@ -88,6 +88,14 @@ const RECIPES = [
 // Logotip bu yerda ishlanmaydi: src/assets/logo.png to'g'ridan-to'g'ri
 // komponentga import qilinadi (src/components/ui/logo.tsx).
 
+/**
+ * PPTX'dan tashqari, qo'lda qo'shilgan rasmlar.
+ * Manba fayl public/img ichida turadi va shu yerda WebP'ga o'giriladi.
+ */
+const EXTRA = [
+  { id: 'slaughter-complex', file: 'cargo-complex-2.png', ar: 4 / 3, w: 1200 },
+]
+
 const manifest = {}
 
 for (const r of RECIPES) {
@@ -133,6 +141,36 @@ for (const r of RECIPES) {
   }
 
   console.log(`${r.id}.webp  ${width}x${height}  ${(buf.length / 1024).toFixed(0)}KB`)
+}
+
+// --- Qo'lda qo'shilgan rasmlar (manbasi public/img ichida) ---
+for (const e of EXTRA) {
+  const srcPath = path.join(OUT, e.file)
+  if (!fs.existsSync(srcPath)) {
+    console.warn(`o'tkazib yuborildi (manba yo'q): ${e.file}`)
+    continue
+  }
+
+  const width = e.w
+  const height = Math.round(width / e.ar)
+
+  const buf = await sharp(srcPath)
+    .resize(width, height, { fit: 'cover', position: e.position ?? 'attention' })
+    .webp({ quality: 82, effort: 5 })
+    .toBuffer()
+
+  fs.writeFileSync(path.join(OUT, `${e.id}.webp`), buf)
+
+  const lqip = await sharp(buf).resize(20).webp({ quality: 40 }).toBuffer()
+
+  manifest[e.id] = {
+    src: `/img/${e.id}.webp`,
+    width,
+    height,
+    lqip: `data:image/webp;base64,${lqip.toString('base64')}`,
+  }
+
+  console.log(`${e.id}.webp  ${width}x${height}  ${(buf.length / 1024).toFixed(0)}KB`)
 }
 
 fs.writeFileSync(

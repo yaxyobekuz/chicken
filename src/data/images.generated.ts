@@ -151,6 +151,12 @@ export const IMAGES = {
     "width": 1000,
     "height": 750,
     "lqip": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAADwAwCdASoUAA8APu1iqU2ppaOiMAgBMB2JQBdgZYMMAaqHn+nbAcUAAPKVuDWgGxac+Ae1p67PjzAaN5iGxO0FM/PLj6fCSSW95udH1N9AyrVGMKdYLXqSh5v22su22xxOe1uZ7TX97ulARBUqZ9ul+W8mgk3N4tK5jwa36tJ3Y4J7+p8/aAAA"
+  },
+  "slaughter-complex": {
+    "src": "/img/slaughter-complex.webp",
+    "width": 1200,
+    "height": 900,
+    "lqip": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAAAQBACdASoUAA8APu1iqU2ppaOiMAgBMB2JZQDA3CFmT/O1MLY9auYzgAD+WIgirK0WqAMAzZKw2YUWhW2wWscsMVMu0NwtgxZShdyLs/DyqhWm8jm8g2ve3D80P6On/myNDgnlCr6XPKss9mG2gcmMCBQ+hMIWdZSXUrwAAAA="
   }
 } as const satisfies Record<string, ImageAsset>
 
