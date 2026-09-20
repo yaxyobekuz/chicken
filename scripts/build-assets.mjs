@@ -90,10 +90,16 @@ const RECIPES = [
 
 /**
  * PPTX'dan tashqari, qo'lda qo'shilgan rasmlar.
- * Manba fayl public/img ichida turadi va shu yerda WebP'ga o'giriladi.
+ *
+ * Manba fayllar `assets-src/` da turadi — public/img emas. Ikki sabab:
+ * ular brauzerga yuborilmaydi (har biri bir necha MB), va PPTX
+ * retseptlari bilan nom to'qnashuvi bo'lmaydi.
  */
+const SRC_DIR = path.join(ROOT, 'assets-src')
+
 const EXTRA = [
-  { id: 'slaughter-complex', file: 'cargo-complex-2.png', ar: 4 / 3, w: 1200 },
+  { id: 'slaughter-complex', file: 'slaughter-complex.png', ar: 4 / 3, w: 1200 },
+  { id: 'cooperation-handshake', file: 'cooperation-handshake.webp', ar: 3 / 2, w: 1500 },
 ]
 
 const manifest = {}
@@ -143,12 +149,22 @@ for (const r of RECIPES) {
   console.log(`${r.id}.webp  ${width}x${height}  ${(buf.length / 1024).toFixed(0)}KB`)
 }
 
-// --- Qo'lda qo'shilgan rasmlar (manbasi public/img ichida) ---
+// --- Qo'lda qo'shilgan rasmlar (manbasi assets-src/ ichida) ---
 for (const e of EXTRA) {
-  const srcPath = path.join(OUT, e.file)
+  const srcPath = path.join(SRC_DIR, e.file)
+
+  /*
+   * Bu yerda ogohlantirib o'tib ketish xavfli: manifest har safar noldan
+   * yoziladi, shuning uchun id yo'qoladi. Slaydlar esa `as ImageId`
+   * bilan uzatadi — tip tekshiruvi buni ushlamaydi va sayt faqat
+   * brauzerda, `asset.lqip` da qulaydi. Shuning uchun darhol to'xtaymiz.
+   */
   if (!fs.existsSync(srcPath)) {
-    console.warn(`o'tkazib yuborildi (manba yo'q): ${e.file}`)
-    continue
+    console.error(
+      `XATO: '${e.id}' uchun manba topilmadi -> ${path.relative(ROOT, srcPath)}\n` +
+        `Faylni assets-src/ ga qo'ying yoki EXTRA ro'yxatidan olib tashlang.`,
+    )
+    process.exit(1)
   }
 
   const width = e.w

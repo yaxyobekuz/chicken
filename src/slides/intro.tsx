@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import logoSrc from '@/assets/logo.png'
 import { SlideShell } from '@/components/chrome/slide-shell'
 import { IMAGES } from '@/data/images.generated'
-import { COMPANY, PAGES, QUOTE } from '@/data/site'
+import { COMPANY, QUOTE } from '@/data/site'
 import { EASE_OUT_EXPO } from '@/lib/motion'
 
 /**
@@ -78,16 +78,6 @@ export function IntroSlide() {
 
         {/* Iqtibos — vertikal markazda, ekranning katta qismini egallaydi */}
         <figure className="flex min-h-0 flex-1 flex-col justify-center py-[clamp(1rem,3vh,2.5rem)]">
-          <motion.span
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.3, ease: EASE_OUT_EXPO }}
-            aria-hidden
-            className="mb-[clamp(0.5rem,1.6vh,1.35rem)] block font-display text-[clamp(2.25rem,5vw,5rem)] leading-[0.4] text-gold-400"
-          >
-            &ldquo;
-          </motion.span>
-
           <motion.blockquote
             initial="hidden"
             animate="show"
@@ -128,19 +118,6 @@ export function IntroSlide() {
           </motion.figcaption>
         </figure>
 
-        {/* Pastki qator: korxona yo'nalishi + slayd raqami */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.9, delay: 1.45 }}
-          className="flex shrink-0 items-center justify-between gap-6 border-t border-white/25 pt-[clamp(0.6rem,1.4vh,1.1rem)] font-mono text-[clamp(0.48rem,0.7vw,0.6875rem)] tracking-[0.2em] uppercase"
-        >
-          <span className="text-white/75">{COMPANY.tagline}</span>
-          <span className="text-white/75 tabular-nums">
-            {PAGES[0].index}{' '}
-            <span className="text-white/45">/ {String(PAGES.length).padStart(2, '0')}</span>
-          </span>
-        </motion.div>
       </div>
     </SlideShell>
   )

@@ -21,6 +21,8 @@ npm run build      # dist/ ga yig'ish
 | 03 | `/rivojlanish` | 2020–2026 o'sish jadvali va moliyalashtirish |
 | 04 | `/loyihalar` | 2026–2027 uchta yangi loyiha va yig'ma ta'sir |
 | 05 | `/istiqbol` | Beshta istiqbolli loyiha va yakuniy ko'rsatkichlar |
+| 06 | `/kooperatsiya` | Kooperatsiya tizimi va uning natijalari |
+| 07 | `/korsatkichlar` | Tannarx pasaytirish va qo'shimcha qiymat halqalari |
 
 ## Boshqaruv
 
@@ -29,7 +31,7 @@ npm run build      # dist/ ga yig'ish
 | `→` `Space` `PageDown` | Keyingi slayd |
 | `←` `PageUp` | Oldingi slayd |
 | `Home` / `End` | Birinchi / oxirgi slayd |
-| `1`–`5` | To'g'ridan-to'g'ri slaydga o'tish |
+| `1`–`7` | To‘g‘ridan-to‘g‘ri slaydga o‘tish |
 | `F` | To'liq ekran |
 
 Pastdagi step bar orqali ham o'tish mumkin.
@@ -71,6 +73,20 @@ node scripts/build-assets.mjs
 Skript kollaj rasmlarni alohida kadrlarga kesadi, WebP'ga o'giradi va
 `src/data/images.generated.ts` manifestini yangilaydi. `SSS.pptx`
 bo'lmasa, skript mavjud `public/img` ni tegmay qoldiradi.
+
+**Yangi rasm qo'shish.** Manba faylni `assets-src/` ga qo'ying va
+`scripts/build-assets.mjs` dagi `EXTRA` ro'yxatiga yozing:
+
+```js
+{ id: 'yangi-rasm', file: 'yangi-rasm.png', ar: 4 / 3, w: 1200 }
+```
+
+So'ng skriptni ishga tushiring — u `public/img/yangi-rasm.webp` ni yaratib,
+manifestga qo'shadi. Komponentda `id` bo'yicha ishlatiladi.
+
+> **Muhim:** `public/img` — faqat natija papkasi. Skript uni to'liq qayta
+> yaratadi, shuning uchun manba fayllarni u yerda saqlamang: nomi biror
+> retsept bilan to'qnashsa, rasm o'chib ketadi.
 
 Logotip alohida: `src/assets/logo.png` to'g'ridan-to'g'ri import qilinadi.
 

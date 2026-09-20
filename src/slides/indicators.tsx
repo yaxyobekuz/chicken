@@ -176,6 +176,10 @@ function ColumnTotal({
     data.groups.reduce((sum, g) => sum + g.rows.reduce((s, r) => s + (r.value ?? 0), 0), 0),
   )
 
+  // Umumiy foiz — guruh foizlari yig'indisi (5,4 + 14,6 = 20).
+  const totalPercent =
+    Math.round(data.groups.reduce((sum, g) => sum + g.total, 0) * 100) / 100
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -191,7 +195,7 @@ function ColumnTotal({
         aria-hidden
         className="pointer-events-none absolute -top-1/2 right-0 size-64 rounded-full bg-white/12 blur-3xl"
       />
-      <div className="relative flex items-center gap-[clamp(0.5rem,1.2vw,1.25rem)]">
+      <div className="relative flex items-center justify-between gap-[clamp(0.5rem,1.2vw,1.25rem)]">
         <div className="min-w-0">
           <p className="font-mono text-[clamp(0.48rem,0.72vw,0.68rem)] tracking-[0.16em] text-white/65 uppercase">
             Jami
@@ -205,6 +209,12 @@ function ColumnTotal({
             </span>
           </p>
         </div>
+
+        {/* Umumiy foiz — kartaning o'ng chekkasida, pul summasiga juft.
+            Foiz belgisi raqam bilan bir xil o'lchamda. */}
+        <p className="shrink-0 font-display text-[clamp(1.25rem,2.4vw,2.4rem)] leading-none tracking-[-0.03em] text-white tabular-nums">
+          {num(totalPercent)}%
+        </p>
       </div>
     </motion.div>
   )

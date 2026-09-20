@@ -75,7 +75,7 @@ check(
 // --- Orqaga ---
 await page.keyboard.press('ArrowLeft')
 await settle()
-check('ArrowLeft -> orqaga', path() === '/istiqbol', path())
+check('ArrowLeft -> orqaga', path() === '/kooperatsiya', path())
 
 // --- Home -> birinchi ---
 await page.keyboard.press('Home')

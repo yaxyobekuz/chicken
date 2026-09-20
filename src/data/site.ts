@@ -1,9 +1,12 @@
 /**
  * Saytning barcha matn va raqamli ma'lumotlari.
  *
- * MANBA: SSS.pptx (4 slayd). Bu yerdagi raqamlar manbadan aynan olingan —
- * hech bir ko'rsatkich o'zgartirilmagan va qo'shimcha raqam o'ylab
- * topilmagan. Komponentlar faqat shu fayldan o'qiydi.
+ * MANBA: SSS.pptx va korsatkichlar.xlsx. Ko'rsatkichlarning asosiy qismi
+ * o'sha fayllardan aynan olingan; bir nechtasi keyinchalik buyurtmachi
+ * ko'rsatmasi bilan yangilangan va o'z joyida izohlab qo'yilgan.
+ * Hech bir raqam o'ylab topilmagan.
+ *
+ * Komponentlar faqat shu fayldan o'qiydi — slaydlarda raqam yozilmaydi.
  */
 
 export const COMPANY = {
@@ -409,11 +412,15 @@ export const FUTURE_IMPACT = [
 /* ------------------------------------------------------------------ *
  * 06 — YANGI LOYIHALAR KO'RSATKICHLARI
  *
- * MANBA: korsatkichlar.xlsx. Raqamlar aynan jadvaldan olingan:
+ * MANBA: korsatkichlar.xlsx —
  *   Tannarx pasaytirish  — E7:E8 / N7:N9 (foiz)
  *   Qo'shimcha qiymat    — E16:E18 + F16:F18 / N16 + O16
  * Har ikkalasi ikki guruhga bo'linadi: istiqbolli loyihalar va
  * "Parrandasanoat" uyushmasi bilan birgalikdagi loyihalar.
+ *
+ * DIQQAT: qo'shimcha qiymat bo'limidagi uchta pul qiymati (4,8 / 0,9 / 8,1)
+ * buyurtmachi ko'rsatmasi bilan yangilangan va endi xlsx'dagi dastlabki
+ * qiymatlardan (1,92 / 4,67 / 8,08) farq qiladi. Foizlar o'zgarmagan.
  * ------------------------------------------------------------------ */
 
 export type IndicatorRow = {
@@ -516,49 +523,48 @@ export const ADDED_VALUE = {
 /**
  * Kooperatsiya tizimi \u2014 alohida slayd (06).
  *
- * MANBA: SSS.pptx, kooperatsiya bloki. Matn va yagona raqamli ko'rsatkich
- * (1,5 mln bosh) manbadan aynan olingan. Quyidagi `stages` \u2014 o'sha bir
- * gapdagi bosqichlarning tuzilma ko'rinishi: yangi raqam yoki yangi
- * biznes-fakt qo'shilmagan.
+ * MANBA: SSS.pptx, kooperatsiya bloki \u2014 matn shu yerdan olingan.
+ * Ikkala raqamli ko'rsatkich (1,7 mln bosh va 300\u2013350 nafar) keyinchalik
+ * buyurtmachi bergan qiymatlar; PPTX'dagi dastlabki raqam 1,5 mln bosh edi.
  */
+export type CooperationMetric = {
+  id: string
+  /** Raqam ustidagi yorliq; `null` bo'lsa ko'rsatilmaydi. */
+  label: string | null
+  /** Son bo'lsa sanab ko'tariladi; matn (oraliq) bo'lsa statik chiqadi. */
+  value: number | string
+  /** Sanashdagi o'nlik xonalar soni. */
+  decimals?: number
+  unit: string
+  /** Uzun raqamda birlik yonida emas, ostida beriladi. */
+  unitBelow?: boolean
+}
+
+/**
+ * Ikkita natija ko'rsatkichi \u2014 izoh matni ostida yonma-yon beriladi.
+ * Birinchisi sanab ko'tariladi, ikkinchisi oraliq bo'lgani uchun statik.
+ */
+const COOPERATION_METRICS: readonly CooperationMetric[] = [
+  {
+    id: 'birds',
+    label: 'Qo\u2018shimcha yetishtirish imkoniyati',
+    value: 1.7,
+    decimals: 1,
+    unit: 'mln bosh parranda',
+  },
+  {
+    id: 'jobs',
+    label: 'Qayta tiklanuvchi ish o\u2018rinlari',
+    value: '300\u2013350',
+    unit: 'nafar',
+    unitBelow: true,
+  },
+]
+
 export const COOPERATION = {
   title: 'Kooperatsiya tizimi',
   lead: 'Faoliyati to\u2018xtatilgan va qiynalayotgan fermer xo\u2018jaliklari klaster bilan birgalikda ishlaydi.',
-  text: 'Yangi loyihada faoliyati to\u2018xtatilgan va qiynalayotgan fermer xo\u2018jaliklarini kooperatsiya tizimida birgalikda ishlashda bu tizim \u2014 ish o\u2018rinlari qayta tiklanadi va qo\u2018shimcha 1,5 mln bosh parranda yetishtirish imkoniyatini beradi.',
-  image: 'cage-silos',
-  /** Manbadagi gapning uch bosqichi \u2014 chapdan o'ngga o'qiladi. */
-  stages: [
-    {
-      id: 'idle',
-      no: '01',
-      title: 'To\u2018xtagan xo\u2018jaliklar',
-      text: 'Faoliyati to\u2018xtatilgan va qiynalayotgan fermer xo\u2018jaliklari.',
-    },
-    {
-      id: 'join',
-      no: '02',
-      title: 'Kooperatsiyada birgalikda',
-      text: 'Xo\u2018jaliklar klaster bilan kooperatsiya tizimida birgalikda ishlaydi.',
-    },
-    {
-      id: 'result',
-      no: '03',
-      title: 'Qayta tiklangan quvvat',
-      text: 'Ish o\u2018rinlari qayta tiklanadi, qo\u2018shimcha parranda quvvati ochiladi.',
-    },
-  ],
-  /** Kadr ustidagi natija ko'rsatkichlari. */
-  highlight: {
-    label: 'Qo\u2018shimcha yetishtirish imkoniyati',
-    value: 1.7,
-    unit: 'mln bosh parranda',
-    /** Kadr ichida asosiy raqam yonida beriladigan ikkinchi ko'rsatkich. */
-    jobs: '350 ta bo\u2018sh ish o\u2018rni',
-    display: '1,5 mln bosh parranda',
-  },
-  /** Manbada raqam bilan berilmagan natija \u2014 matn sifatida ko'rsatiladi. */
-  outcome: {
-    label: 'Ijtimoiy natija',
-    value: 'Ish o\u2018rinlari qayta tiklanadi',
-  },
+  text: 'Yangi loyiha doirasida faoliyati to\u2018xtab qolgan va qiyin ahvoldagi parrandachilik fermer xo\u2018jaliklarini kooperatsiya tizimiga jalb etish orqali ularning faoliyati qayta tiklanadi.',
+  image: 'cooperation-handshake',
+  metrics: COOPERATION_METRICS,
 } as const

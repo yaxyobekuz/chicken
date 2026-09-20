@@ -157,6 +157,12 @@ export const IMAGES = {
     "width": 1200,
     "height": 900,
     "lqip": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAAAQBACdASoUAA8APu1iqU2ppaOiMAgBMB2JZQDA3CFmT/O1MLY9auYzgAD+WIgirK0WqAMAzZKw2YUWhW2wWscsMVMu0NwtgxZShdyLs/DyqhWm8jm8g2ve3D80P6On/myNDgnlCr6XPKss9mG2gcmMCBQ+hMIWdZSXUrwAAAA="
+  },
+  "cooperation-handshake": {
+    "src": "/img/cooperation-handshake.webp",
+    "width": 1500,
+    "height": 1000,
+    "lqip": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAAAQBACdASoUAA0APu1iqU2ppaOiMAgBMB2JYgCsIKnA8RRi+kwYmwvbgAD+7WFtv2kODXUE0vDuJbMiAjbGp6qKaeD1DKBuzwg94kS4Q6Wj6812lfBmS5R8aowSWYxeQen9OWdod3FaAEosiDzONRKCZSO4rTaVvRKpcUy3EH9warcEwj3r3dhfhTcoM3tgImQOrwwVJG/xgAAA"
   }
 } as const satisfies Record<string, ImageAsset>
 

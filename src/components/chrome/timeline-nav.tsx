@@ -10,8 +10,9 @@ import { cn } from '@/lib/utils'
 /**
  * To'q fonli slaydlar — navigatsiya ham shu slaydlarda to'q bo'ladi,
  * shunda slayd bilan panel orasida keskin oq chiziq paydo bo'lmaydi.
+ * Hozir barcha slaydlar oq mavzuda; ro'yxat kelajak uchun qoldirilgan.
  */
-const DARK_PAGES = new Set<PageId>(['cooperation'])
+const DARK_PAGES = new Set<PageId>()
 
 function Chevron({ dir }: { dir: 'prev' | 'next' }) {
   return (
