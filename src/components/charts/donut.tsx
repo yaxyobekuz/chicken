@@ -31,6 +31,7 @@ export type DonutSegment = {
 export function Donut({
   segments,
   total,
+  displayTotal,
   label,
   tone = 'brand',
   delay = 0,
@@ -39,12 +40,19 @@ export function Donut({
   segments: readonly DonutSegment[]
   /** Markazdagi umumiy foiz. */
   total: number
-  label: string
+  /**
+   * Markazda `total` o'rniga chiqadigan foiz. Segmentlar baribir
+   * `total` bo'yicha chiziladi.
+   */
+  displayTotal?: number
+  /** Halqa ostidagi yozuv; `null` bo'lsa chiqmaydi. */
+  label: string | null
   tone?: 'brand' | 'gold'
   delay?: number
   className?: string
 }) {
   const brand = tone === 'brand'
+  const centerValue = displayTotal ?? total
 
   // Segmentlarning boshlanish burchagi to'planib boradi
   let acc = 0
@@ -77,7 +85,7 @@ export function Donut({
         viewBox={`0 0 ${SIZE} ${SIZE}`}
         className="size-full"
         role="img"
-        aria-label={`${label}: ${total}%`}
+        aria-label={label ? `${label}: ${centerValue}%` : `${centerValue}%`}
       >
         {/* Fon halqasi */}
         <circle
@@ -128,20 +136,22 @@ export function Donut({
         >
           {/* O'nlik kasrli qiymat yaxlitlanmasin: 14,6% "15%" bo'lib qolmasin */}
           <Counter
-            to={total}
-            decimals={Number.isInteger(total) ? 0 : 1}
+            to={centerValue}
+            decimals={Number.isInteger(centerValue) ? 0 : 1}
             delay={delay + 0.3}
           />
           <span className="text-[0.5em]">%</span>
         </motion.p>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: delay + 0.45 }}
-          className="mt-[0.45em] font-mono text-[clamp(0.55rem,0.8vw,0.75rem)] tracking-[0.16em] text-ink-500 uppercase"
-        >
-          {label}
-        </motion.p>
+        {label && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: delay + 0.45 }}
+            className="mt-[0.45em] font-mono text-[clamp(0.55rem,0.8vw,0.75rem)] tracking-[0.16em] text-ink-500 uppercase"
+          >
+            {label}
+          </motion.p>
+        )}
       </div>
     </div>
   )

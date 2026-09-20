@@ -50,7 +50,9 @@ function GroupCard({ group, tone, delay }: { group: IndicatorGroup; tone: Tone; 
           <Donut
             segments={group.rows}
             total={group.total}
-            label="Jami"
+            displayTotal={group.displayTotal}
+            // Yozuv guruhda belgilanmagan bo'lsa — «Jami»
+            label={group.centerLabel === undefined ? 'Jami' : group.centerLabel}
             tone={tone}
             delay={delay + 0.18}
             className="min-h-0 flex-none"

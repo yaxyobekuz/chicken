@@ -443,6 +443,17 @@ export type IndicatorGroup = {
   total: number
   /** Guruh bo'yicha jami pul qiymati, mln $. */
   totalValue?: number
+  /**
+   * Halqa markazida `total` o'rniga ko'rsatiladigan foiz.
+   * `total` segmentlar geometriyasi uchun kerak, shuning uchun
+   * ko'rsatiladigan qiymat alohida beriladi.
+   */
+  displayTotal?: number
+  /**
+   * Halqa ostidagi yozuv. Berilmasa — «Jami».
+   * `null` bo'lsa umuman chiqmaydi.
+   */
+  centerLabel?: string | null
 }
 
 /**
@@ -509,12 +520,17 @@ export const ADDED_VALUE = {
       id: 'association',
       title: '«Parrandasanoat» uyushmasi bilan birgalikda',
       total: 8,
+      // Bitta qatorli guruh — halqa ostidagi «Jami» ortiqcha
+      centerLabel: null,
       rows: [{ id: 'slaughter', label: 'Qismlarga ajratish va qadoqlash', percent: 8, value: 4.8 }],
     },
     {
       id: 'future',
       title: 'Istiqbolli loyiha',
+      // Segmentlar 20+10+30 bo'lib chiziladi, markazda esa o'rtacha ulush
       total: 60,
+      displayTotal: 20,
+      centerLabel: 'O‘rtacha',
       rows: [
         { id: 'stores', label: 'Firma do‘konlari (200 dona)', percent: 20, value: 2.1 },
         { id: 'meat-dairy', label: 'Go‘sht va sut mahsulotlari', percent: 10, value: 0.9 },
