@@ -509,7 +509,7 @@ export const ADDED_VALUE = {
       id: 'association',
       title: '«Parrandasanoat» uyushmasi bilan birgalikda',
       total: 8,
-      rows: [{ id: 'slaughter', label: 'Parranda so‘yish liniyasi', percent: 8, value: 4.8 }],
+      rows: [{ id: 'slaughter', label: 'Qismlarga ajratish va qadoqlash', percent: 8, value: 4.8 }],
     },
     {
       id: 'future',
